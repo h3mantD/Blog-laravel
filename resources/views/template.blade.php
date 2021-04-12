@@ -18,6 +18,12 @@
 <body>
 <div id="app">
     <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
+        @if (session('status'))
+            <div style="color:red">
+                <p>{{ session('status') }}</p>
+            </div>
+            
+        @endif
         @yield('content')
     </main>
 </div>

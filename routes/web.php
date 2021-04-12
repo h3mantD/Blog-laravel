@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,7 @@ Route::get('/home', function() {
     return view('template');
     dd(Auth::user());
 })->middleware('auth');
+
+//Route::get('/view-all', [PostsController::class, 'index']);
+
+Route::resource('posts', PostsController::class);
