@@ -1,7 +1,7 @@
 @extends('template')
 
 @section('content')
-    <div class="container">
+    <div class="container" style="position: absolute; top:10%;>
 
         <div>
             <h1>{{ $post['title'] }}</h1>

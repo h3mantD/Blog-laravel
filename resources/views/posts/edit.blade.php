@@ -1,31 +1,33 @@
 @extends('template')
 
 @section('content')
-    
-    <form action="{{ route('posts.update', ['post'=>$post['id']]) }}" method="POST">
-        @csrf
-        @method('put')
-        <div><input type="text" value="{{ old('title', $post['title'] ) }}" name='title'></div>
-        @error('title')
-            {{ $message }}
-        @enderror
-        <div><input type="text" value="{{ old('content', $post['content'] ) }}" name='content'></div>
-        @error('content')
-            {{ $message }}
-        @enderror
-        {{-- this will display all the errorss --}}
-        {{-- @if ($errors->any())
-            <div>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif --}}
+   
+    <div class="container" style="position: absolute; top:10%;">
 
-        <div><input type="submit" name='submit' value="Update Post"></div>
-        
-    </form>
+        <form action="{{ route('posts.update', ['post'=>$post['id']]) }}" method="POST">
+            @csrf
+            @method("PUT")
+            <div class="form-group">
+                <label for="formGroupExampleInput">Blog Title</label>
+                <input type="text" name="title" value="{{ old('title', $post['title'] ) }}" class="form-control" id="formGroupExampleInput" >
+                @error('title')
+                    <p style="color: red">{{ $message }}</p>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">Content</label>
+                <input type="text" name="content" value="{{ old('title', $post['content'] ) }}" class="form-control" id="formGroupExampleInput2" >
+                @error('content')
+                    <p style="color: red">{{ $message }}</p>
+                @enderror
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Add Blog">
+            </div>
+        </form>
+
+    </div>
+
+
 
 @endsection
