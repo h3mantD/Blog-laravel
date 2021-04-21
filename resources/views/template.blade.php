@@ -10,6 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Styles -->
@@ -46,10 +47,11 @@
 
     {{-- <main class="d-flex align-items-center min-vh-100 py-3 py-md-0"> --}}
         @if (session('status'))
-            <div style="color:red">
-                <p>{{ session('status') }}</p>
+        <center>    
+          <div style="color:red; position: absolute; top:7%; margin:auto;">
+                <p> {{ session('status') }} </p>
             </div>
-            
+        </center>
         @endif
         @yield('content')
     {{-- </main> --}}

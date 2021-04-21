@@ -3,7 +3,7 @@
 @section('content')
    
 
-    <div class="container" style="position: absolute; top:10%;>
+    <div class="container" style="position: absolute; top:10%;">
 
         <form action="{{ route('posts.store') }}" method="POST">
             @csrf

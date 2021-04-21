@@ -1,21 +1,45 @@
 @extends('template')
 
 @section('content')
-    <div class="container" style="position: absolute; top:10%;>
+
+    <script>
+    $(document).ready(function(){
+        $('.comment').hide();
+        $("#addCom").click(function(){
+            $(".comment").toggle();
+        });
+    });
+    </script>
+
+    <div class="container" style="position: absolute; top:10%;">
 
         <div>
             <h1>{{ $post['title'] }}</h1>
             <p>{{ $post['content'] }}</p>
         </div>
 
+
+    <div class="row">
+        <form action="{{ route('posts.destroy', ['post' => $post['id']]) }}" method="post" style="padding: 5px">
+            @csrf
+            @method('delete')
+            <input type="submit" class="btn btn-primary" value="Delete" >
+
+        </form>
+        <form action="{{ route('posts.edit', ['post' => $post['id']]) }}" method="get" style="padding: 5px">
+
+            <input type="submit" class="btn btn-primary" value="Edit" >
+
+        </form>
+        <button class="btn btn-primary" onclick=""  id="addCom">Show/hide Add comment</button>
     </div>
-
-    <div>
-    <form action="{{ route('posts.destroy', ['post' => $post['id']]) }}" method="post">
-        @csrf
-        @method('delete')
-        <input type="submit" value="Delete">
-
-    </form>
+    <br>
+    <div class="comment">
+            <form action="" method="post">
+                @csrf
+                <input type="text" name="comment" id="com">
+                <input type="submit" value="Add Comment" name="" id="">
+            </form>
+    </div>
     </div>
 @endsection
