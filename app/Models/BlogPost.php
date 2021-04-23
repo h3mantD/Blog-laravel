@@ -13,4 +13,16 @@ class BlogPost extends Model
     public function comments() {
         return $this->hasMany(Comment::class);
     }
+
+    public function user() {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function (BlogPost $blogPost) {
+            $blogPost->comments()->delete();
+        });
+    }
 }

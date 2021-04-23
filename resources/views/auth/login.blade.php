@@ -1,7 +1,7 @@
 @extends('template')
 
 @section('content')
-    <div class="container">
+    <div class="container" style="position: absolute; top:10%">
         <div class="card login-card">
             <div class="row no-gutters">
                 <div class="col-md-5">

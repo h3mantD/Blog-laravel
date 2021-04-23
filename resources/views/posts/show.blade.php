@@ -46,7 +46,7 @@
         <h2>Comments</h2>
         @forelse ($post->comments as $com)
             <p>{{ $com->content }}</p> 
-            <p class="text-muted">added {{ \Carbon\Carbon::parse($com->created_at)->diffForHumans() }}</p>
+            <p class="text-muted">added {{ \Carbon\Carbon::parse($com->created_at)->diffForHumans() }} by {{ $post->user->name }}</p>
         @empty
             <p>no comments yet</p>
         @endforelse

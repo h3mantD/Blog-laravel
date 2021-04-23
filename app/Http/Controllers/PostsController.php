@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class PostsController extends Controller
 {
@@ -19,7 +21,7 @@ class PostsController extends Controller
 
         return view(
             'posts.index', 
-            ['posts' => BlogPost::withCount('comments')->get()]
+            ['posts' => BlogPost::withCount('comments')->orderBy('created_at', 'desc')->get()]
         );
     }
 
@@ -50,7 +52,7 @@ class PostsController extends Controller
         $post = new BlogPost();
         $post->title = $request->input('title');
         $post->content = $request->input('content');
-
+        $post->user_id = Auth::user()->id;
         $post->save();
 
         $request->session()->flash('status', 'blog post created');
@@ -81,6 +83,12 @@ class PostsController extends Controller
     {
         $post = BlogPost::findOrFail($id);
         
+        /* if (Gate::denies('update-post', $post))
+            abort(403, "You can't edit this blogpost"); */
+
+        //short hand for Gate denies 
+        $this->authorize('update-post', $post);
+
         return view('posts.edit', ['post'=>$post]);
     }
 
@@ -94,6 +102,10 @@ class PostsController extends Controller
     public function update(Request $request, $id)
     {
         $post = BlogPost::findOrFail($id);
+        if (Gate::denies('update-post', $post))
+            abort(403, "You can't edit this blogpost");
+        
+        
         $request->validate([
             'title' => 'required|min:5|max:100',
             'content' => 'required|min:10',
@@ -118,6 +130,7 @@ class PostsController extends Controller
     public function destroy($id)
     {
         $post = BlogPost::findOrFail($id);
+        $this->authorize('delete-post', $post);
         $post->delete();
 
         session()->flash('status', 'BlogPost deleted');

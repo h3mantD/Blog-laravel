@@ -20,8 +20,9 @@ Route::get('/', function () {
 });
 
 Route::get('/home', function() {
-    return view('template');
-    dd(Auth::user());
+    //return view('template');
+    return redirect()->route('posts.index');
+    //dd(Auth::user());
 })->middleware('auth');
 
 //Route::get('/view-all', [PostsController::class, 'index']);
