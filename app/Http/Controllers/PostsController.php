@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BlogPost;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +22,14 @@ class PostsController extends Controller
 
         return view(
             'posts.index', 
-            ['posts' => BlogPost::withCount('comments')->orderBy('created_at', 'desc')->get()]
+            [
+                'posts' => BlogPost::srt()->withCount('comments')->get(),
+                'most_commented' => BlogPost::mostCommented()->take(5)->get(),
+                'most_active_users' => User::mostActive()->take(5)->get(),
+            
+            ] // local query scope
+            // for global query scope
+            // ['posts' => BlogPost::withCount('comments')->get()]
         );
     }
 
@@ -69,7 +77,12 @@ class PostsController extends Controller
     public function show($id)
     {
         //dd(BlogPost::findOrFail($id));
-        return view('posts.show', ['post' => BlogPost::with('comments')->findOrFail($id)]);
+        /* return view('posts.show', ['post' => BlogPost::with(['comments' => function($query) {
+            return $query->srt();
+        }])->findOrFail($id)]); */
+        
+        // globle query scope
+        return view('posts.show', ['post' => BlogPost::with('comments')->findOrFail($id)]);  // added local scope in blogpost model 
 
     }
 

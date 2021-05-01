@@ -3,12 +3,13 @@
 @section('content')
 
     <script>
-    $(document).ready(function(){
-        $('.comment').hide();
-        $("#addCom").click(function(){
-            $(".comment").toggle();
+        $(document).ready(function() {
+            $('.comment').hide();
+            $("#addCom").click(function() {
+                $(".comment").toggle();
+            });
         });
-    });
+
     </script>
 
     <div class="container" style="position: absolute; top:10%;">
@@ -19,38 +20,45 @@
         </div>
 
 
-    <div class="row">
-        <form action="{{ route('posts.destroy', ['post' => $post['id']]) }}" method="post" style="padding: 5px">
-            @csrf
-            @method('delete')
-            <input type="submit" class="btn btn-primary" value="Delete" >
+        <div class="row">
+            @can('delete-post', $post)
+                <form action="{{ route('posts.destroy', ['post' => $post['id']]) }}" method="post" style="padding: 5px">
+                    @csrf
+                    @method('delete')
+                    <input type="submit" class="btn btn-primary" value="Delete">
 
-        </form>
-        <form action="{{ route('posts.edit', ['post' => $post['id']]) }}" method="get" style="padding: 5px">
+                </form>
+            @endcan
 
-            <input type="submit" class="btn btn-primary" value="Edit" >
+            @can('update-post', $post)
+                <form action="{{ route('posts.edit', ['post' => $post['id']]) }}" method="get" style="padding: 5px">
 
-        </form>
-        <button class="btn btn-primary" onclick=""  id="addCom">Show/hide Add comment</button>
-    </div>
-    <br>
-    <div class="comment">
+                    <input type="submit" class="btn btn-primary" value="Edit">
+
+                </form>
+
+            @endcan
+            <button class="btn btn-primary" onclick="" id="addCom">Show/hide Add comment</button>
+        </div>
+        <br>
+        <div class="comment">
             <form action="" method="post">
                 @csrf
                 <input type="text" name="comment" id="com">
                 <input type="submit" value="Add Comment" name="" id="">
             </form>
-    </div>
+        </div>
 
-    <div class="allComments">
-        <h2>Comments</h2>
-        @forelse ($post->comments as $com)
-            <p>{{ $com->content }}</p> 
-            <p class="text-muted">added {{ \Carbon\Carbon::parse($com->created_at)->diffForHumans() }} by {{ $post->user->name }}</p>
-        @empty
-            <p>no comments yet</p>
-        @endforelse
-    </div>
+        <div class="allComments">
+            <h2>Comments</h2>
+            @forelse ($post->comments as $com)
+                <p>{{ $com->content }}</p>
+                <p class="text-muted">added {{ \Carbon\Carbon::parse($com->created_at)->diffForHumans() }} by
+                    {{ $post->user->name }}</p>
+            @empty
+                <p>no comments yet</p>
+            @endforelse
+        </div>
 
     </div>
 @endsection
