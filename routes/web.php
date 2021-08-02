@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\PostsController;
+use App\Http\Livewire\Home;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +30,5 @@ Route::get('/home', function() {
 //Route::get('/view-all', [PostsController::class, 'index']);
 
 Route::resource('posts', PostsController::class);
+
+Route::get('testing-livewire', Home::class);
